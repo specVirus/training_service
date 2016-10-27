@@ -21,7 +21,7 @@ class ApiHttpBasicAuth extends HttpBasicAuth {
 
     /**
      * @inheritdoc
-     * @param \yii\web\User $user
+     * @param \common\modules\user\components\User $user
      * @param \yii\web\Request $request
      * @param \yii\web\Response $response
      * @return mixed|null|\yii\web\IdentityInterface
@@ -38,6 +38,7 @@ class ApiHttpBasicAuth extends HttpBasicAuth {
             $this->handleFailure($response);
             return null;
         }
+        /** @var \common\modules\user\models\User $identity */
         $identity = $user->loginByAccessToken($apiKey, get_class($this));
         if($identity !== null && $identity->phone == $apiPhone) {
             return $identity;

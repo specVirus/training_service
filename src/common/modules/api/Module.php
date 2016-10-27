@@ -2,6 +2,8 @@
 
 namespace common\modules\api;
 
+use common\modules\api\controllers\user\UserController;
+
 /**
  * api module definition class
  */
@@ -18,7 +20,8 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
-        // custom initialization code goes here
+        $this->controllerMap = [
+            'user' => UserController::className(),
+        ];
     }
 }

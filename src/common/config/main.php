@@ -5,6 +5,9 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'user' => [
+            'class' => 'common\modules\user\components\User',
+        ],
     ],
     'modules' => [
         'api' => [
