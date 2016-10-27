@@ -1,5 +1,5 @@
 <?php
-namespace common\models;
+namespace common\modules\user\models;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -15,7 +15,11 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $phone
+ * @property string $full_name
  * @property string $auth_key
+ * @property string $api_key
+ * @property boolean $is_verified_phone
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -24,7 +28,7 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
+    const STATUS_ACTIVE = 1;
 
 
     /**
@@ -81,6 +85,17 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Finds user by phone
+     *
+     * @param string $phone
+     * @return static|null
+     */
+    public static function findByPhone($phone)
+    {
+        return static::findOne(['phone' => $phone, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -169,6 +184,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateApiKey()
+    {
+        $this->api_key = Yii::$app->security->generateRandomString();
     }
 
     /**

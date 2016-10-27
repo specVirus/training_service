@@ -6,4 +6,12 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
     ],
+    'modules' => [
+        'api' => [
+            'class' => 'common\modules\api\Module',
+        ],
+        'user' => [
+            'class' => 'common\modules\user\Module',
+        ],
+    ],
 ];
