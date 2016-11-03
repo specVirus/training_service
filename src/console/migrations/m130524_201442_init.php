@@ -23,6 +23,7 @@ class m130524_201442_init extends Migration
             'email' => $this->string()->unique(),
             'phone' => $this->string()->notNull()->unique(),
             'is_verified_phone' => $this->boolean(),
+            'confirmation_phone_code' => $this->integer(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

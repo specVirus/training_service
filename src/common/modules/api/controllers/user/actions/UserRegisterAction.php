@@ -28,7 +28,7 @@ class UserRegisterAction extends Action
                 $message = 'LABEL_SUCCESSFULLY_REGISTERED';
                 $this->afterRegister($user);
                 if(Yii::$app->user->isGuest) {
-                    $message = 'LABEL_SUCCESSFULLY_REGISTERED_PLEASE_CHECK_YOUR_EMAIL';
+                    $message = 'LABEL_SUCCESSFULLY_REGISTERED_PLEASE_CHECK_YOUR_PHONE';
                 }
                 $result = [
                     'result' => true,
@@ -52,6 +52,7 @@ class UserRegisterAction extends Action
      * @param User $user
      */
     protected function afterRegister($user) {
-
+        $message = Yii::t('app', 'Код активации: '.$user->confirmation_phone_code);
+        Yii::$app->sms->send($user->phone, $message);
     }
 }

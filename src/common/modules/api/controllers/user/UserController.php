@@ -56,6 +56,7 @@ class UserController extends BaseApiActiveController
         return ArrayHelper::merge(parent::verbs(), [
             'login' => ['POST'],
             'register' => ['POST'],
+            'confirm' => ['POST'],
         ]);
     }
 

@@ -18,10 +18,17 @@ class UserLoginAction extends Action
             return Yii::$app->user->identity;
         }
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post(), '') && $model->login()) {
-            return Yii::$app->user->identity;
+        if ($model->load(Yii::$app->request->post(), '') && $model->validate()) {
+            $model->login();
+            $result =  Yii::$app->user->identity;
         } else {
-            return false;
+            Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
+            $result = [
+                'result' => false,
+                'message' => 'LABEL_REGISTER_ERROR',
+                'errors' => $model->getErrors()
+            ];
         }
+        return $result;
     }
 }

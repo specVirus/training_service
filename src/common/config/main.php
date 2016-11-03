@@ -8,6 +8,9 @@ return [
         'user' => [
             'class' => 'common\modules\user\components\User',
         ],
+        'sms' => [
+            'class' => 'common\modules\sms\components\SmsManager',
+        ],
     ],
     'modules' => [
         'api' => [
@@ -15,6 +18,9 @@ return [
         ],
         'user' => [
             'class' => 'common\modules\user\Module',
+        ],
+        'sms' => [
+            'class' => 'common\modules\sms\Module',
         ],
     ],
 ];

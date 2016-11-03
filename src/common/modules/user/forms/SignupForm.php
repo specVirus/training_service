@@ -22,13 +22,12 @@ class SignupForm extends Model
         return [
             ['phone', 'trim'],
             ['phone', 'required'],
-            ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This phone has already been taken.'],
+            ['phone', 'unique', 'targetClass' => '\common\modules\user\models\User', 'message' => 'This phone has already been taken.'],
             ['phone', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
-            ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\modules\user\models\User', 'message' => 'This email address has already been taken.'],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];
@@ -50,6 +49,7 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateApiKey();
+        $user->generateСonfirmationСode();
         return $user->save() ? $user : null;
     }
 }
