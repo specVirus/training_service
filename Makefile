@@ -3,9 +3,9 @@ override NAME = 'default'
 all:
 	@echo 'you must enter target'
 
-deploy-prod: git-pull-prod install-vendor yii-migrate-deploy yii-migrate-user blog-deploy-prod
+deploy-prod: git-pull-prod install-vendor yii-migrate-deploy
 
-deploy-dev: git-pull-dev install-vendor yii-migrate-deploy yii-migrate-user
+deploy-dev: git-pull-dev install-vendor yii-migrate-deploy
 
 prod:
 	./src/init --env=Production --overwrite=y
@@ -33,6 +33,3 @@ yii-migrate-deploy:
 
 yii-migrate-create:
 	php ./src/yii migrate/create $(NAME) --interactive=0
-
-blog-deploy-prod:
-	cp ./src/blog/wp-config-sample.prod.php ./src/blog/wp-config.php

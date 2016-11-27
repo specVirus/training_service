@@ -100,14 +100,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by phone
-     *
-     * @param string $phone
-     * @return static|null
+     * @param $login
+     * @param $code
+     * @return static
      */
-    public static function findByCodePhone($phone, $code)
+    public static function findByCodeLogin($login, $code)
     {
-        return static::findOne(['phone' => $phone, 'confirmation_phone_code' => $code]);
+        return static::findOne(['phone' => $login, 'confirmation_phone_code' => $code]);
     }
 
     /**
@@ -217,7 +216,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Generates new password reset token
      */
-    public function generatePasswordResetToken()
+    public function generatePasswordRemptyesetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }

@@ -20,18 +20,18 @@ class UserConfirmAction extends Action
 {
     public function run(){
         $postData = Yii::$app->request->post();
-        if(empty($postData['code']) || empty($postData['phone'])){
+            if(empty($postData['code']) || empty($postData['login'])){
             throw new BadRequestHttpException();
         }
-        $user = User::findByCodePhone($postData['phone'], $postData['code']);
+        $user = User::findByCodeLogin($postData['login'], $postData['code']);
         if(empty($user)){
             throw new NotFoundHttpException(Yii::t('app', 'LABEL_ERROR_USER_DOES_NOT_EXIST'));
         }
-        if($user->is_verified_phone){
+        if($user->is_verified_login){
             throw new Exception(Yii::t('app', 'LABEL_ERROR_USER_IS_VERIFIED'));
         }
         $user->status = User::STATUS_ACTIVE;
-        $user->is_verified_phone = true;
+        $user->is_verified_login = true;
         return $user->save();
     }
 }
