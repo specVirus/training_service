@@ -3,9 +3,9 @@ override NAME = 'default'
 all:
 	@echo 'you must enter target'
 
-deploy-prod: git-pull-prod install-vendor yii-migrate-deploy
+deploy-prod: git-pull-prod prod install-vendor yii-migrate-deploy
 
-deploy-dev: git-pull-dev install-vendor yii-migrate-deploy
+deploy-dev: git-pull-dev dev install-vendor yii-migrate-deploy
 
 prod:
 	./src/init --env=Production --overwrite=y

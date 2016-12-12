@@ -1,5 +1,6 @@
 <?php
 namespace common\modules\api\forms;
+use common\modules\api\components\traits\ErrorCodeTrait;
 
 /**
  * Created by PhpStorm.
@@ -9,5 +10,5 @@ namespace common\modules\api\forms;
  */
 class LoginForm extends \common\modules\user\forms\LoginForm
 {
-
+    use ErrorCodeTrait;
 }
