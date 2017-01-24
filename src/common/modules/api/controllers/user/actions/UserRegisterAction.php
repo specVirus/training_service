@@ -29,6 +29,7 @@ class UserRegisterAction extends Action
             Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
         }
 
+        Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
         return $result;
     }
 

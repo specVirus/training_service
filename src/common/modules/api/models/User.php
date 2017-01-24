@@ -9,9 +9,9 @@ namespace common\modules\api\models;
  */
 class User extends \common\modules\user\models\User
 {
-    const ERROR_CODE_LOGIN = 100;
-    const ERROR_CODE_REGISTER = 101;
-    const ERROR_CODE_CONFIRM_NOT_FOUND = 102;
-    const ERROR_CODE_CONFIRM_IS_VERIFIED = 103;
-    const ERROR_CODE_SAVE_USER = 104;
+    const ERROR_CODE_LOGIN = 1000;
+    const ERROR_CODE_REGISTER = 1001;
+    const ERROR_CODE_CONFIRM_NOT_FOUND = 1002;
+    const ERROR_CODE_CONFIRM_IS_VERIFIED = 1003;
+    const ERROR_CODE_SAVE_USER = 1004;
 }

@@ -27,9 +27,11 @@ class UserConfirmAction extends Action
         /** @var User $user */
         $user = User::findByCodePhone($postData['phone'], $postData['code']);
         if(empty($user)) {
+            Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
             return ['error_code' => User::ERROR_CODE_CONFIRM_NOT_FOUND];
         }
         if($user->is_verified_phone) {
+            Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
             return ['error_code' => User::ERROR_CODE_CONFIRM_IS_VERIFIED];
         }
         $user->status = User::STATUS_ACTIVE;
@@ -38,6 +40,7 @@ class UserConfirmAction extends Action
             return ['api_key' => $user->api_key];
         }
 
+        Yii::$app->getResponse()->setStatusCode(409, 'Conflict save user');
         return ['error_code' => User::ERROR_CODE_SAVE_USER];
     }
 }
