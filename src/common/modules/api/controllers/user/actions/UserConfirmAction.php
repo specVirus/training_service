@@ -34,9 +34,10 @@ class UserConfirmAction extends Action
         }
         $user->status = User::STATUS_ACTIVE;
         $user->is_verified_phone = true;
-        if($user->save()){
+        if($user->save()) {
             return ['api_key' => $user->api_key];
         }
+
         return ['error_code' => User::ERROR_CODE_SAVE_USER];
     }
 }
