@@ -8,6 +8,7 @@
 
 namespace common\modules\api\controllers;
 
+use common\modules\api\models\User;
 use Yii;
 use yii\base\Event;
 use yii\filters\Cors;
@@ -44,10 +45,13 @@ class BaseApiActiveController extends ActiveController {
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator']['formats']['text/html'] = $this->format;
         $behaviors['authenticator']['class'] = ApiHttpBasicAuth::className();
-        $behaviors['authenticator']['auth'] = function ($username, $password) {
-            if(!Yii::$app->user->isGuest) {
-                return Yii::$app->user->identity;
+        $behaviors['authenticator']['auth'] = function ($apiKey) {
+            $user = User::findByApiKey($apiKey);
+            if(!empty($user)) {
+                return $user;
             }
+
+            return null;
         };
         $behaviors = ArrayHelper::merge([
             'corsFilter' => [

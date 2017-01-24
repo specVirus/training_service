@@ -17,7 +17,6 @@ use yii\filters\auth\HttpBasicAuth;
  */
 class ApiHttpBasicAuth extends HttpBasicAuth {
     const API_KEY = 'key';
-    const API_PHONE = 'phone';
 
     /**
      * @inheritdoc
@@ -33,18 +32,30 @@ class ApiHttpBasicAuth extends HttpBasicAuth {
             'api/request'
         );
         $apiKey = $request->get(self::API_KEY);
-        $apiPhone = $request->get(self::API_PHONE);
-        if(empty($apiKey) || empty($apiPhone)) {
+        if(empty($apiKey)) {
             $this->handleFailure($response);
             return null;
         }
-        /** @var \common\modules\user\models\User $identity */
-        $identity = $user->loginByAccessToken($apiKey, get_class($this));
-        if($identity !== null && $identity->phone == $apiPhone) {
-            return $identity;
+        if($this->auth) {
+            if($apiKey !== null) {
+                $identity = call_user_func($this->auth, $apiKey);
+                if($identity !== null) {
+                    $user->switchIdentity($identity);
+                }else {
+                    $this->handleFailure($response);
+                }
+
+                return $identity;
+            }
+        }else{
+            /** @var \common\modules\user\models\User $identity */
+            $identity = $user->loginByAccessToken($apiKey, get_class($this));
+            if($identity !== null) {
+                return $identity;
+            }
+            $this->handleFailure($response);
+            return null;
         }
-        $this->handleFailure($response);
-        return null;
     }
 
     /**

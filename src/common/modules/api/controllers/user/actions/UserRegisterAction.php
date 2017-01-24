@@ -15,44 +15,31 @@ use Yii;
 
 class UserRegisterAction extends Action
 {
-    public function run(){
-        $result = [
-            'result' => false,
-            'message' => 'LABEL_REGISTER_ERROR',
-            'errors' => []
-        ];
+    public function run()
+    {
         $model = new RegisterForm();
-        if ($model->load(Yii::$app->request->post(), '') && $model->validate()) {
+        $result = ['error_code' => User::ERROR_CODE_REGISTER];
+        if($model->load(Yii::$app->request->post(), '') && $model->validate()) {
             /** @var User $user */
-            if ($user = $model->signup()) {
-                $message = 'LABEL_SUCCESSFULLY_REGISTERED';
+            if($user = $model->signup()) {
                 $this->afterRegister($user);
-                if(Yii::$app->user->isGuest) {
-                    $message = 'LABEL_SUCCESSFULLY_REGISTERED_PLEASE_CHECK_YOUR_PHONE';
-                }
-                $result = [
-                    'result' => true,
-                    'message' => $message,
-                    'errors' => []
-                ];
+                $result = ['api_key' => $user->api_key];
             }
         }else {
             Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
-            $result = [
-                'result' => false,
-                'message' => 'LABEL_REGISTER_ERROR',
-                'errors' => $model->getErrors()
-            ];
         }
+
         return $result;
     }
 
     /**
      * Process data after registration
+     *
      * @param User $user
      */
-    protected function afterRegister($user) {
-        $message = Yii::t('app', 'Код активации: '.$user->confirmation_phone_code);
+    protected function afterRegister($user)
+    {
+        $message = Yii::t('app', 'Код активации: ' . $user->confirmation_phone_code);
         Yii::$app->sms->send($user->phone, $message);
     }
 }

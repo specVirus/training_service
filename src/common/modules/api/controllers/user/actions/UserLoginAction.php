@@ -1,6 +1,7 @@
 <?php
 namespace common\modules\api\controllers\user\actions;
 
+use common\modules\api\models\User;
 use yii\rest\Action;
 use Yii;
 use common\modules\api\forms\LoginForm;
@@ -13,22 +14,19 @@ use common\modules\api\forms\LoginForm;
  */
 class UserLoginAction extends Action
 {
-    public function run(){
-        if (!Yii::$app->user->isGuest) {
-            return Yii::$app->user->identity;
-        }
+    public function run()
+    {
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post(), '') && $model->validate()) {
+        if($model->load(Yii::$app->request->post(), '') && $model->validate()) {
             $model->login();
-            $result =  Yii::$app->user->identity;
-        } else {
+            /** @var User $identity */
+            $identity = Yii::$app->user->identity;
+            $result = ['api_key' => $identity->api_key];
+        }else {
             Yii::$app->getResponse()->setStatusCode(422, 'Fail validation');
-            $result = [
-                'result' => false,
-                'message' => 'LABEL_REGISTER_ERROR',
-                'errors' => $model->getErrors()
-            ];
+            $result = ['error_code' => User::ERROR_CODE_LOGIN];
         }
+
         return $result;
     }
 }

@@ -10,5 +10,5 @@ use common\modules\api\components\traits\ErrorCodeTrait;
  */
 class LoginForm extends \common\modules\user\forms\LoginForm
 {
-    use ErrorCodeTrait;
+
 }

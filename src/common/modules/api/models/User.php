@@ -9,5 +9,8 @@ namespace common\modules\api\models;
  */
 class User extends \common\modules\user\models\User
 {
-
+    const ERROR_CODE_LOGIN = 100;
+    const ERROR_CODE_REGISTER = 101;
+    const ERROR_CODE_CONFIRM_NOT_FOUND = 102;
+    const ERROR_CODE_CONFIRM_IS_VERIFIED = 103;
 }
